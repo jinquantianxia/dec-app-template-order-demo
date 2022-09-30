@@ -1,6 +1,5 @@
-// Start the initialization entry
-import * as cyfs from 'cyfs-sdk';
-import { DEC_ID, APP_NAME } from '../common/constant';
+// Initialization
+import { DEC_ID } from '../common/constant';
 import {
     waitStackRuntime,
     useSimulator,
@@ -13,7 +12,7 @@ export async function init() {
     // zoneNo: FIRST -> simulator1, SECOND -> simulator2, REAL -> production environment
     // deviceNo: Just use the default SimulatorDeviceNo.FIRST
     useSimulator(SimulatorZoneNo.FIRST, SimulatorDeviceNo.FIRST);
-    // MetaClient choose "nightly"
-    MetaClient.init(MetaClient.EnvTarget.NIGHTLY);
+    // MetaClient choose "beta"
+    MetaClient.init(MetaClient.EnvTarget.BETA);
     await waitStackRuntime(DEC_ID);
 }

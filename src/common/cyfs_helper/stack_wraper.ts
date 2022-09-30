@@ -260,60 +260,6 @@ export class StackWraper {
         return cyfs.Ok(resp.object);
     }
 
-    public async selectObject(
-        filter: {
-            objType?: number;
-            objTypeCode?: cyfs.ObjectTypeCode;
-            decId?: cyfs.ObjectId;
-            ownerId?: cyfs.ObjectId;
-            authorId?: cyfs.ObjectId;
-            createTime?: cyfs.SelectTimeRange;
-            updateTime?: cyfs.SelectTimeRange;
-            insertTime?: cyfs.SelectTimeRange;
-            flags?: number;
-        },
-        pagination?: {
-            pageSize: number;
-            pageIndex: number;
-        },
-        options?: {
-            reqPath?: string;
-            decId?: cyfs.ObjectId;
-            level?: cyfs.NONAPILevel;
-            flags?: number;
-            target?: cyfs.ObjectId;
-        }
-    ): Promise<cyfs.BuckyResult<cyfs.NONSelectObjectOutputResponse>> {
-        let opt: cyfs.SelectOption | undefined;
-        if (pagination) {
-            opt = {
-                page_index: pagination.pageIndex,
-                page_size: pagination.pageSize
-            };
-        }
-        return await this.m_stack.non_service().select_object({
-            common: {
-                req_path: options?.reqPath,
-                dec_id: options?.decId,
-                level: options?.level || cyfs.NONAPILevel.Router,
-                flags: options?.flags || 0,
-                target: options?.target
-            },
-            filter: {
-                obj_type: filter?.objType,
-                obj_type_code: filter?.objTypeCode,
-                dec_id: filter?.decId,
-                owner_id: filter?.ownerId,
-                author_id: filter?.authorId,
-                create_time: filter?.createTime,
-                update_time: filter?.updateTime,
-                insert_time: filter?.insertTime,
-                flags: filter?.flags
-            },
-            opt
-        });
-    }
-
     public async putObject(
         obj: AsObject,
         options?: {
@@ -502,7 +448,7 @@ export class StackWraper {
     public async isReqestInZone(
         req: cyfs.RouterHandlerPostObjectRequest
     ): Promise<cyfs.BuckyResult<boolean>> {
-        const devR = await this.getDeviceFromCache(req.request.common.source);
+        const devR = await this.getDeviceFromCache(req.request.common.source.zone.device!);
         if (devR.err) {
             const msg = `get source device failed, ${devR}`;
             console.error(msg);
@@ -621,7 +567,7 @@ export class StackWraper {
         // 等待节点上线
         console.info('will wait online.');
         while (true) {
-            const r = await this.m_stack.wait_online(cyfs.Some(cyfs.JSBI.BigInt(1000000)));
+            const r = await this.m_stack.wait_online(cyfs.JSBI.BigInt(1000000));
             if (r.err) {
                 console.error(`wait online err: ${r.val}`);
             } else {

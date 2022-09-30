@@ -106,16 +106,16 @@ export async function createOrderRouter(
     });
 
     // Cross-zone notification, notify the specified user OOD
-    // const stackWraper = checkStack();
+    const stackWraper = checkStack();
     // // If here is the windows simulator environment, C:\cyfs\etc\zone-simulator\desc_list -> zone2 -> people,
     // // If here is the mac simulator environment, /Users/<username>/Library/Application Support/cyfs/etc/zone-simulator/desc_list -> zone2 -> people,
     // // otherwise, you should use real poepleId.
-    // const peopleId = '5r4MYfFVtnu7yAP5XSZGg8JsqZuzyqozH6oXCLMPb8h8';
-    // await stackWraper.postObject(orderObject, ResponseObjectDecoder, {
-    //     reqPath: ROUTER_PATHS.CREATE_ORDER_REQ,
-    //     decId: stack.dec_id!,
-    //     target: cyfs.PeopleId.from_base_58(peopleId).unwrap().object_id // Here is the difference between the same zone and cross zone.
-    // });
+    const peopleId = '5r4MYfFAXpC9restAd7fxMDhdEhxC9J81WCH8epCUeBZ';
+    await stackWraper.postObject(orderObject, ResponseObjectDecoder, {
+        reqPath: ROUTER_PATHS.CREATE_ORDER_REQ,
+        decId: stack.dec_id!,
+        target: cyfs.PeopleId.from_base_58(peopleId).unwrap().object_id // Here is the difference between the same zone and cross zone.
+    });
     return Promise.resolve(
         cyfs.Ok({
             action: cyfs.RouterHandlerAction.Response,
