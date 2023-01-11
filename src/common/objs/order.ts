@@ -93,7 +93,7 @@ export class OrderDescContentDecoder extends cyfs.ProtobufDescContentDecoder<
 
     public try_from_proto(orderObject: protos.Order): cyfs.BuckyResult<OrderDescContent> {
         const key = orderObject.getKey();
-        const timestamp = orderObject.getTimestamp();
+        const timestamp = orderObject.hasTimestamp() ? orderObject.getTimestamp() : undefined;
         const price = orderObject.getPrice();
         const buyer = orderObject.getBuyer();
         const status = orderObject.getStatus();
