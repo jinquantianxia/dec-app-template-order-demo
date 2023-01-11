@@ -10,7 +10,7 @@ export async function createOrderReqRouter(
     req: cyfs.RouterHandlerPostObjectRequest
 ): Promise<cyfs.BuckyResult<cyfs.RouterHandlerPostObjectResult>> {
     const stack = checkStack().check();
-    const owner = stack.local_device().desc().owner()!.unwrap();
+    const owner = stack.local_device().desc().owner()!;
     console.log(`current target -----> ${req.request.common.target?.to_base_58()}`);
     if (!owner.equals(req.request.common.target!)) {
         console.log(`should transfer to -> ${req.request.common.target}`);

@@ -125,7 +125,7 @@ export async function listOrdersByPage(pageIndex: number) {
     // Get your own OwnerId
     const selfObjectId = stack.checkOwner();
     // Get an instance of cyfs.GlobalStateAccessStub
-    const access = stack.check().root_state_access_stub(selfObjectId);
+    const access = stack.check().root_state_accessor_stub(selfObjectId);
     // Use the list method to list all objects under /orders
     const lr = await access.list('/orders', pageIndex, 10);
 
